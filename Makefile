@@ -1,3 +1,5 @@
+PACKAGE=tutorial 
+
 test: 
 	@echo "===== TESTING ${PACKAGE} ====="
 	pytest tests/
