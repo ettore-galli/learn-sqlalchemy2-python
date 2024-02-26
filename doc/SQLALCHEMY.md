@@ -103,6 +103,8 @@ metadata = MetaData()
 
 ### Definizione delle tabelle in stile Core
 
+<https://docs.sqlalchemy.org/en/20/tutorial/metadata.html#setting-up-metadata-with-table-objects>
+
 Si veda anche ```tutorial/core/models.py``````
 
 Esempio di tabella
@@ -122,6 +124,65 @@ customer = Table(
     Column("address", String(100), nullable=True),
 )
 
+```
+
+### Vincoli e relazioni stile Core
+
+<https://docs.sqlalchemy.org/en/20/core/constraints.html>
+
+Chiave esterna
+
+```python
+
+Column("item_id", ForeignKey(item.c.id), nullable=False),
+```
+
+Unicità
+
+```python
+
+Column("colx", Integer, unique=True),
+...
+UniqueConstraint("col_a", "col_b", name="my_unique_constraint"),
+
+```
+
+Vincoli vari
+
+Si noti come sia possibile definire il vincolo al di fuori della tabella, esattamente come in SQL, con il grosso vantaggio di poter riferirsi direttamente agli oggetti colonna e non esprimere espressioni testuali (non parsate che rischiano di rompersi a runtime)
+
+Tuttavia anrebbero usati col contagocce.
+
+```python
+
+CheckConstraint("col2 > col3 + 5", name="check1"),
+
+...
+
+CheckConstraint(
+    price_list.c.price > 0,
+    name="check_price",
+    table=price_list,
+)
+
+```
+
+Chiave primaria
+
+La versione esplicita (```PrimaryKeyConstraint("id")```) in fase di creazione effettua il controllo della correttezza del nome colonna per cui risulta _safe_ (basta un test unitario o un conftest che fa il create_all per tenere sotto controllo la cosa); ha il vantaggio di poter dare il nome al constraint.
+
+```python
+Column("id", Integer, primary_key=True),
+
+...
+
+item = Table(
+    "item",
+    db_metadata,
+    Column("id", Integer),
+    Column("description", String(50), nullable=False),
+    PrimaryKeyConstraint("id", name"my_primary_key"),
+)
 
 ```
 

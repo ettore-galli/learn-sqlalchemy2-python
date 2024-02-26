@@ -1,4 +1,13 @@
-from sqlalchemy import Column, Integer, Numeric, String, MetaData
+from sqlalchemy import (
+    CheckConstraint,
+    Column,
+    ForeignKey,
+    Integer,
+    Numeric,
+    PrimaryKeyConstraint,
+    String,
+    MetaData,
+)
 
 from sqlalchemy import Table
 
@@ -15,17 +24,24 @@ customer = Table(
 item = Table(
     "item",
     db_metadata,
-    Column("id", Integer, primary_key=True),
+    Column("id", Integer),
     Column("description", String(50), nullable=False),
+    PrimaryKeyConstraint("id"),
 )
 
-item = Table(
-    "price",
+
+price_list = Table(
+    "price_list",
     db_metadata,
-    Column("item_id", Integer, primary_key=True),
+    Column("item_id", ForeignKey(item.c.id), nullable=False),
     Column(
         "price",
         Numeric(30, 9, asdecimal=True),
         nullable=False,
     ),
+)
+CheckConstraint(
+    price_list.c.price > 0,
+    name="check_price",
+    table=price_list,
 )
