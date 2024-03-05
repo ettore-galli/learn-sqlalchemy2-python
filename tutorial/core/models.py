@@ -11,11 +11,11 @@ from sqlalchemy import (
 
 from sqlalchemy import Table
 
-db_metadata = MetaData()
+db_core_metadata = MetaData()
 
 customer = Table(
     "customer",
-    db_metadata,
+    db_core_metadata,
     Column("id", Integer, primary_key=True),
     Column("name", String(50), nullable=False),
     Column("address", String(100), nullable=True),
@@ -23,7 +23,7 @@ customer = Table(
 
 item = Table(
     "item",
-    db_metadata,
+    db_core_metadata,
     Column("id", Integer),
     Column("description", String(50), nullable=False),
     PrimaryKeyConstraint("id"),
@@ -32,7 +32,7 @@ item = Table(
 
 price_list = Table(
     "price_list",
-    db_metadata,
+    db_core_metadata,
     Column("item_id", ForeignKey(item.c.id), nullable=False),
     Column(
         "price",

@@ -188,6 +188,35 @@ item = Table(
 
 ### Definizione delle tabelle in stile ORM
 
+<https://docs.sqlalchemy.org/en/20/tutorial/metadata.html#using-orm-declarative-forms-to-define-table-metadata>
+
+Le definizioni in stile ORM sono quelle raccomandate perché
+
+- Sono in stile più "pythonico"
+- Migliore compatibilità con i type checkers (mypy)
+- Disponibilità sia delle funzionalità ORM che Core, essendo una Façade su Table
+
+```python
+class BaseModel(DeclarativeBase):
+    pass
+
+
+db_orm_metadata = BaseModel.metadata
+
+
+class Customer(BaseModel):
+    __tablename__ = "customer"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False)
+    address: Mapped[str] = mapped_column(String(200), nullable=True)
+
+```
+
+### vincoli e relazioni in stile ORM
+
+<https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html>
+
 ## Costruzione ed esecuzione statement SQL
 
 ### Insert
