@@ -32,6 +32,6 @@ class Item(BaseModel):
 class PriceList(BaseModel):
     __tablename__ = "price_list"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    item_id: Mapped[int] = mapped_column(ForeignKey(Item.id))
+    item_code: Mapped[int] = mapped_column(ForeignKey(Item.code))
     item: Mapped[Item] = relationship(back_populates="price_list")
     price: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
