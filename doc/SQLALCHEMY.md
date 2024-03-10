@@ -224,20 +224,35 @@ class Customer(BaseModel):
 #### Insert Core Style
 
 ```python
+from sqlalchemy import insert
+session.execute(insert(Customer).values(name="Ettore", address="Via dei Tigli"))
 
 ```
 
 #### Insert ORM Style
 
 ```python
+record = Customer(name="Ettore", address="Via dei Tigli")
+session.add(record)
+session.commit()
 
 ```
 
 ### Select (base)
 
+<https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#selecting-orm-entities-and-columns>
+
+Differenza tra core ed ORM nel risultato:
+
+> When executing a statement like the above using the ORM Session.execute() method, there is an important difference when we select from a full entity such as User, as opposed to user_table, which is that the entity itself is returned as a single element within each row.
+
 #### Select Core Style
 
 ```python
+from sqlalchemy import select
+
+query = select(Item).where(Item.code == "L001")
+result = session.execute(query).all()
 
 ```
 

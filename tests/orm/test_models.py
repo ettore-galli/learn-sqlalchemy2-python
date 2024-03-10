@@ -42,3 +42,27 @@ def test_core_insert_with_orm_models():
         query = select(Customer)
         result = session.execute(query).all()
         assert result[0].Customer.name == "Ettore"
+
+
+def test_basic_select():
+    with Session(setup_orm_db_engine()) as session:
+        data = [
+            Customer(name="Ettore", address="Via dei Tigli"),
+            Item(code="P001", description="Pinza manico rosso"),
+            Item(code="L001", description="Lampadina piccola"),
+            Item(code="L002", description="Lampadina media"),
+            PriceList(item_code="L001", price=Decimal("2.30")),
+            PriceList(item_code="L002", price=Decimal("2.50")),
+        ]
+        for item in data:
+            session.add(item)
+        session.commit()
+
+        query = select(Item).where(Item.code == "L001")
+        result = session.execute(query).all()
+        assert len(result) == 1
+        assert result[0].Item.description == "Lampadina piccola"
+
+        result_orm = session.query(Item).filter(Item.code == "L002").all()
+        assert len(result_orm) == 1
+        assert result_orm[0].description == "Lampadina media"
