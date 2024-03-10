@@ -1,5 +1,5 @@
 from decimal import Decimal
-from sqlalchemy import select
+from sqlalchemy import insert, select
 from sqlalchemy.orm import Session
 from tests.utils.engine import setup_orm_db_engine
 
@@ -31,3 +31,14 @@ def test_db_models():
             item.Item.price_list.price if item.Item.price_list else "<none>"
             for item in result
         ] == ["<none>", Decimal("2.30"), Decimal("2.50")]
+
+
+def test_core_insert_with_orm_models():
+    with Session(setup_orm_db_engine()) as session:
+
+        session.execute(insert(Customer).values(name="Ettore", address="Via dei Tigli"))
+        session.commit()
+
+        query = select(Customer)
+        result = session.execute(query).all()
+        assert result[0].Customer.name == "Ettore"

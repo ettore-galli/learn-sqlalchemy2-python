@@ -221,11 +221,59 @@ class Customer(BaseModel):
 
 ### Insert
 
+#### Insert Core Style
+
+```python
+
+```
+
+#### Insert ORM Style
+
+```python
+
+```
+
 ### Select (base)
+
+#### Select Core Style
+
+```python
+
+```
+
+#### Select ORM Style
+
+```python
+
+```
 
 ### Update
 
+#### Update Core Style
+
+```python
+
+```
+
+#### Update ORM Style
+
+```python
+
+```
+
 ### Delete
+
+#### Delete Core Style
+
+```python
+
+```
+
+#### Delete ORM Style
+
+```python
+
+```
 
 ### Select avanzate (ricette)
 
