@@ -68,7 +68,7 @@ def test_basic_select():
         assert result_orm[0].description == "Lampadina media"
 
 
-def test_update_delete():
+def test_update_delete_core_style():
     with Session(setup_orm_db_engine()) as session:
         data = [
             Customer(name="Ettore", address="Via dei Tigli"),
@@ -91,6 +91,38 @@ def test_update_delete():
             (delete(Item).where(Item.code == "P001")),
         ]:
             session.execute(statement)
+
+        result_orm = session.query(Item).all()
+
+        assert len(result_orm) == 2
+        assert [record.description for record in result_orm] == [
+            "Lampadina piccola",
+            "Lampadina standard",
+        ]
+
+
+def test_update_delete_orm_style():
+    with Session(setup_orm_db_engine()) as session:
+        data = [
+            Customer(name="Ettore", address="Via dei Tigli"),
+            Item(code="P001", description="Pinza manico rosso"),
+            Item(code="L001", description="Lampadina piccola"),
+            Item(code="L002", description="Lampadina media"),
+            PriceList(item_code="L001", price=Decimal("2.30")),
+            PriceList(item_code="L002", price=Decimal("2.50")),
+        ]
+        for item in data:
+            session.add(item)
+        session.commit()
+
+        p1 = session.query(Item).where(Item.code == "P001").one_or_none()
+        session.delete(p1)
+
+        l2 = session.query(Item).where(Item.code == "L002").one_or_none()
+        if l2:
+            l2.description = "Lampadina standard"
+
+        session.commit()
 
         result_orm = session.query(Item).all()
 

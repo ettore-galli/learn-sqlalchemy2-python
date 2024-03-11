@@ -219,6 +219,10 @@ class Customer(BaseModel):
 
 ## Costruzione ed esecuzione statement SQL
 
+Spiegazione del pattern "unit of work"
+
+<https://docs.sqlalchemy.org/en/20/tutorial/orm_data_manipulation.html#data-manipulation-with-the-orm>
+
 ### Insert
 
 #### Insert Core Style
@@ -280,6 +284,8 @@ session.execute(
 #### Update ORM Style
 
 ```python
+l2 = session.query(Item).where(Item.code=="L002").one_or_none()
+l2.description = "Lampadina standard"
 
 ```
 
@@ -299,6 +305,8 @@ session.execute(
 #### Delete ORM Style
 
 ```python
+p1 = session.query(Item).where(Item.code=="P001").one_or_none()
+session.delete(p1)
 
 ```
 
