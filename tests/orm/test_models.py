@@ -1,5 +1,5 @@
 from decimal import Decimal
-from sqlalchemy import insert, select
+from sqlalchemy import delete, insert, select, update
 from sqlalchemy.orm import Session
 from tests.utils.engine import setup_orm_db_engine
 
@@ -66,3 +66,36 @@ def test_basic_select():
         result_orm = session.query(Item).filter(Item.code == "L002").all()
         assert len(result_orm) == 1
         assert result_orm[0].description == "Lampadina media"
+
+
+def test_update_delete():
+    with Session(setup_orm_db_engine()) as session:
+        data = [
+            Customer(name="Ettore", address="Via dei Tigli"),
+            Item(code="P001", description="Pinza manico rosso"),
+            Item(code="L001", description="Lampadina piccola"),
+            Item(code="L002", description="Lampadina media"),
+            PriceList(item_code="L001", price=Decimal("2.30")),
+            PriceList(item_code="L002", price=Decimal("2.50")),
+        ]
+        for item in data:
+            session.add(item)
+        session.commit()
+
+        for statement in [
+            (
+                update(Item)
+                .values(description="Lampadina standard")
+                .where(Item.code == "L002")
+            ),
+            (delete(Item).where(Item.code == "P001")),
+        ]:
+            session.execute(statement)
+
+        result_orm = session.query(Item).all()
+
+        assert len(result_orm) == 2
+        assert [record.description for record in result_orm] == [
+            "Lampadina piccola",
+            "Lampadina standard",
+        ]

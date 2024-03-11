@@ -254,12 +254,15 @@ from sqlalchemy import select
 query = select(Item).where(Item.code == "L001")
 result = session.execute(query).all()
 
+# result_orm == [(Item,)]
 ```
 
 #### Select ORM Style
 
 ```python
+result = session.query(Item).filter(Item.code == "L002").all()
 
+# result == [Item]
 ```
 
 ### Update
@@ -267,7 +270,11 @@ result = session.execute(query).all()
 #### Update Core Style
 
 ```python
+from sqlalchemy import update
 
+session.execute(
+    update(Item).values(description="Lampadina standard").where(Item.code == "L002")
+)        
 ```
 
 #### Update ORM Style
@@ -281,6 +288,11 @@ result = session.execute(query).all()
 #### Delete Core Style
 
 ```python
+from sqlalchemy import delete
+
+session.execute(
+    delete(Item).where(Item.code == "P001")
+)
 
 ```
 
