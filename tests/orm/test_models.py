@@ -131,3 +131,67 @@ def test_update_delete_orm_style():
             "Lampadina piccola",
             "Lampadina standard",
         ]
+
+
+def test_join_orm():
+    with Session(setup_orm_db_engine()) as session:
+        data = [
+            Customer(name="Ettore", address="Via dei Tigli"),
+            Item(code="P001", description="Pinza manico rosso"),
+            Item(code="L001", description="Lampadina piccola"),
+            Item(code="L002", description="Lampadina media"),
+            PriceList(item_code="L001", price=Decimal("2.30")),
+            PriceList(item_code="L002", price=Decimal("2.50")),
+        ]
+        for item in data:
+            session.add(item)
+        session.commit()
+
+        result = session.query(Item).all()
+
+        assert [
+            (
+                record.code,
+                record.description,
+                record.price_list.price if record.price_list else "-",
+            )
+            for record in result
+        ] == [
+            ("P001", "Pinza manico rosso", "-"),
+            ("L001", "Lampadina piccola", Decimal("2.300000000")),
+            ("L002", "Lampadina media", Decimal("2.500000000")),
+        ]
+
+
+def test_join_core():
+    with Session(setup_orm_db_engine()) as session:
+        data = [
+            Customer(name="Ettore", address="Via dei Tigli"),
+            Item(code="P001", description="Pinza manico rosso"),
+            Item(code="L001", description="Lampadina piccola"),
+            Item(code="L002", description="Lampadina media"),
+            PriceList(item_code="L001", price=Decimal("2.30")),
+            PriceList(item_code="L002", price=Decimal("2.50")),
+        ]
+        for item in data:
+            session.add(item)
+        session.commit()
+
+        query = select(Item, PriceList).join(
+            PriceList, Item.code == PriceList.item_code, isouter=True
+        )
+
+        result = session.execute(query).all()
+
+        assert [
+            (
+                record.Item.code,
+                record.Item.description,
+                record.PriceList.price if record.PriceList else "*NO PRICE*",
+            )
+            for record in result
+        ] == [
+            ("P001", "Pinza manico rosso", "*NO PRICE*"),
+            ("L001", "Lampadina piccola", Decimal("2.300000000")),
+            ("L002", "Lampadina media", Decimal("2.500000000")),
+        ]
