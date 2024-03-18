@@ -314,6 +314,15 @@ session.delete(p1)
 
 #### Join
 
+<https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
 
+```python
+query = select(Item, PriceList).join(
+    PriceList, Item.code == PriceList.item_code, isouter=True
+)
+
+result = session.execute(query).all()
+
+```
 
 #### Exists
