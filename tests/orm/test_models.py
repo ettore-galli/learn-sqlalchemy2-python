@@ -1,6 +1,7 @@
 from decimal import Decimal
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.orm import Session
+
 from tests.utils.engine import setup_orm_db_engine
 
 from tutorial.orm.models import Customer, Item, PriceList
