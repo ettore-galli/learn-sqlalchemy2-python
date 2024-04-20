@@ -1,0 +1,21 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Fake create",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "demo_ecommerce/models/init_data_faker.py",
+            "console": "integratedTerminal",
+            "args": [
+                "mysql+pymysql://root:password@localhost:3306/sandbox?charset=utf8mb4"
+            ],
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            }
+        }
+    ]
+}

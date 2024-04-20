@@ -41,12 +41,13 @@ class Invoice(BaseModel):
     __tablename__ = "invoice"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
-
+    # customer: Mapped[Customer] = relationship(back_populates="invoice")
 
 class InvoiceDetail(BaseModel):
     __tablename__ = "invoice_detail"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
+    invoice_id: Mapped[int] = mapped_column(ForeignKey(Invoice.id))
     item_code: Mapped[int] = mapped_column(ForeignKey(Item.code))
-    item: Mapped[Item] = relationship(back_populates="price_list")
-    price: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
+    item: Mapped[Item] = relationship()
+    quantity: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
+    unit_price: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
