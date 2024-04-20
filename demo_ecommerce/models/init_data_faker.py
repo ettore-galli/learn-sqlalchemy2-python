@@ -12,13 +12,15 @@ from demo_ecommerce.models.models import (
     Invoice,
     InvoiceDetail,
     Item,
-    PriceList,
 )
 
 
+# pylint: disable=too-many-locals
 def create_fake_data():
     number_of_customers = 30
     number_of_products = 100
+    number_of_invoices = 100
+
     fake = Faker("it_IT")
     fake.add_provider(faker_commerce.Provider)
 
@@ -37,6 +39,7 @@ def create_fake_data():
                 for _ in range(random.randint(1, 20))
             ],
         )
+        for _ in range(number_of_invoices)
     ]
 
     return fake_customers, fake_products, fake_invoices

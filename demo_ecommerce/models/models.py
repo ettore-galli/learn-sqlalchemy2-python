@@ -1,3 +1,5 @@
+# pylint: disable=too-few-public-methods
+
 from __future__ import annotations
 
 from decimal import Decimal
@@ -42,6 +44,7 @@ class Invoice(BaseModel):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
     # customer: Mapped[Customer] = relationship(back_populates="invoice")
+
 
 class InvoiceDetail(BaseModel):
     __tablename__ = "invoice_detail"

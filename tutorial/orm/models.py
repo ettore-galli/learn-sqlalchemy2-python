@@ -1,3 +1,4 @@
+# pylint: disable=too-few-public-methods, R0801
 from __future__ import annotations
 
 from decimal import Decimal

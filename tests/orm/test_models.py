@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 from decimal import Decimal
 from sqlalchemy import delete, insert, select, update
 from sqlalchemy.orm import Session
