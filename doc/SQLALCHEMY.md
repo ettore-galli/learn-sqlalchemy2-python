@@ -34,7 +34,12 @@ div {
 
 ## Introduzione
 
-Riassunto condensato di SQLAlchemy per chi va di fretta e ha bisogno di sapere come si fanno le cose.
+Riassunto condensato di SQLAlchemy "per chi va di fretta e ha bisogno di sapere come si fanno le cose."
+
+SQLAlchemy è un framework che fornisce:
+
+- Astrazione per l'interazione col DB ("core")
+- Funzionalità ("ORM")
 
 ## Installazione
 
@@ -42,7 +47,11 @@ Riassunto condensato di SQLAlchemy per chi va di fretta e ha bisogno di sapere c
 pip install sqlalchemy
 ```
 
+Nella semplicità del comando di installazione è "naascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
+
 ## Riferimenti
+
+SQLAlchemy 2 ha - finalmente - un tutorial.
 
 Home page del tutorial
 <https://docs.sqlalchemy.org/en/20/tutorial/index.html>
@@ -205,6 +214,7 @@ class BaseModel(DeclarativeBase):
 
 db_orm_metadata = BaseModel.metadata
 
+# Sqlalchemy 2.x
 
 class Customer(BaseModel):
     __tablename__ = "customer"
@@ -212,6 +222,19 @@ class Customer(BaseModel):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(String(200), nullable=True)
+
+```
+
+```python
+
+# Sqlalchemy 1.4
+
+class Customer(BaseModel):
+    __tablename__ = "customer"
+
+    id: int = sa.Column(sa.Integer, primary_key=True)
+    name: str = sa.Column(sa.String(50), nullable=False)
+    address: str = sa.Column(sa.String(200), nullable=True)
 
 ```
 
@@ -224,6 +247,33 @@ class Customer(BaseModel):
 Spiegazione del pattern "unit of work"
 
 <https://docs.sqlalchemy.org/en/20/tutorial/orm_data_manipulation.html#data-manipulation-with-the-orm>
+
+> Unit of work:
+A software architecture where a persistence system such as an object relational mapper maintains a list of changes made to a series of objects, and periodically flushes all those pending changes out to the database.
+SQLAlchemy’s Session implements the unit of work pattern, where objects that are added to the Session using methods like Session.add() will then participate in unit-of-work style persistence.
+
+### Creazione della sessione
+
+L'utilizzo dell'oggetto Session è la via raccomandata ancjhe nel caso in cui si vogliano scrivere gli statement in modalità "core"
+
+Gli step logici sono:
+
+1. Stringa di connessione -> Engine
+2. Session maker
+3. scoped_session (context manager)
+
+```python
+
+database: str = "mysql+pymysql://root:password@localhost:3306/sandbox?charset=utf8mb4"
+
+# 1.
+engine = create_engine(database)
+
+#    2.                                     3.
+with create_session_maker(connection_string)() as session:
+    session.execute(...)
+
+```
 
 ### Insert
 
