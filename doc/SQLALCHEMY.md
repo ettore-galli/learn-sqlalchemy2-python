@@ -36,6 +36,12 @@ div {
 
 Riassunto condensato di SQLAlchemy per chi va di fretta e ha bisogno di sapere come si fanno le cose.
 
+## Installazione
+
+```shell
+pip install sqlalchemy
+```
+
 ## Riferimenti
 
 Home page del tutorial
@@ -65,10 +71,6 @@ Dal tutorial:
     <h4>Core</h4>
     </div>
 </div>
-
-### Domanda aperta
-
-Abbiamo **bisogno** veramente dell'ORM?
 
 ## _Engine_, _Connection_ e _Session_
 
