@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from decimal import Decimal
+from typing import List
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 from sqlalchemy import ForeignKey, Integer, Numeric, String
@@ -21,6 +22,7 @@ class Customer(BaseModel):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     address: Mapped[str] = mapped_column(String(200), nullable=True)
+    invoices: Mapped[List[Invoice]] = relationship(back_populates="customer")
 
 
 class Item(BaseModel):
@@ -43,7 +45,7 @@ class Invoice(BaseModel):
     __tablename__ = "invoice"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
-    # customer: Mapped[Customer] = relationship(back_populates="invoice")
+    customer: Mapped[Customer] = relationship(back_populates="invoices")
 
 
 class InvoiceDetail(BaseModel):
