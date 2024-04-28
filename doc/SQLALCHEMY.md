@@ -244,7 +244,6 @@ class Customer(BaseModel):
 
 Le relazioni vengono definite tutte attraverso l'insieme di Foreign Key e la funzione relationship().
 
-
 ```python
 
 class Customer(BaseModel):
