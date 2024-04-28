@@ -1,6 +1,6 @@
 import sys
 
-from sqlalchemy import exists, select
+from sqlalchemy import exists, literal, select
 
 from demo_ecommerce.connection.connection import create_session_maker
 from demo_ecommerce.models.models import Customer, Invoice
@@ -49,6 +49,19 @@ def query_data(connection_string: str):
         )
 
         print(render_query(session, query_exists))
+
+        for record in session.execute(query_clienti.limit(5)):
+            print(record.Customer.id, record.Customer.name)
+
+        print("-" * 80)
+
+        # Exists alternativa
+        subq_exists = (
+            select(literal(1)).where((Customer.id == Invoice.customer_id)).exists()
+        )
+
+        query_exists_2 = select(Customer).where(subq_exists)
+        print(render_query(session, query_exists_2))
 
         for record in session.execute(query_clienti.limit(5)):
             print(record.Customer.id, record.Customer.name)

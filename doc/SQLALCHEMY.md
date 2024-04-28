@@ -362,15 +362,22 @@ session.delete(p1)
 
 ```
 
-### Select avanzate (ricette)
+### Select avanzate (ricette) Core style
 
 #### Join
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
 
 ```python
-query = select(Item, PriceList).join(
-    PriceList, Item.code == PriceList.item_code, isouter=True
+
+"""
+SELECT customer.id, customer.name, customer.address, invoice.id AS id_1, invoice.customer_id 
+FROM customer INNER JOIN invoice ON customer.id = invoice.customer_id
+"""
+
+
+query = select(Customer, Invoice).join(
+    Invoice, Customer.id == Invoice.customer_id
 )
 
 result = session.execute(query).all()
@@ -378,3 +385,40 @@ result = session.execute(query).all()
 ```
 
 #### Exists
+
+<https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
+
+```python
+
+
+# Versione 1
+"""
+SELECT customer.id, customer.name, customer.address 
+FROM customer 
+WHERE EXISTS (SELECT * 
+FROM invoice 
+WHERE customer.id = invoice.customer_id)
+"""
+
+query_exists = select(Customer).where(
+    exists().where(Customer.id == Invoice.customer_id)
+)
+
+# Versione 2
+
+"""
+SELECT customer.id, customer.name, customer.address 
+FROM customer 
+WHERE EXISTS (SELECT 1 AS anon_1 
+FROM invoice 
+WHERE customer.id = invoice.customer_id)
+"""
+
+subq_exists = (
+    select(literal(1)).where((Customer.id == Invoice.customer_id)).exists()
+)
+
+query_exists_2 = select(Customer).where(subq_exists)
+ 
+
+```
