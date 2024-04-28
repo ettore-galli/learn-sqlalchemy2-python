@@ -242,6 +242,27 @@ class Customer(BaseModel):
 
 <https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html>
 
+Le relazioni vengono definite tutte attraverso l'insieme di Foreign Key e la funzione relationship().
+
+
+```python
+
+class Customer(BaseModel):
+    __tablename__ = "customer"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    name: Mapped[str] = mapped_column(String(50), nullable=False)
+    address: Mapped[str] = mapped_column(String(200), nullable=True)
+    invoices: Mapped[List[Invoice]] = relationship(back_populates="customer")
+ 
+class Invoice(BaseModel):
+    __tablename__ = "invoice"
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
+    customer: Mapped[Customer] = relationship(back_populates="invoices")
+
+```
+
 ## Costruzione ed esecuzione statement SQL
 
 Spiegazione del pattern "unit of work"
