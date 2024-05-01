@@ -7,6 +7,7 @@ from faker import Faker
 import faker_commerce
 
 from demo_ecommerce.connection.connection import create_session_maker
+from demo_ecommerce.models.fake_data import FAKE_CUSTOMERS, FAKE_INVOICES, FAKE_PRODUCTS
 from demo_ecommerce.models.models import (
     Customer,
     Invoice,
@@ -47,7 +48,9 @@ def create_fake_data():
 
 def init_fake_data(connection_string: str):
 
-    fake_customers, fake_products, fake_invoices = create_fake_data()
+    fake_customers = FAKE_CUSTOMERS
+    fake_products = FAKE_PRODUCTS
+    fake_invoices = FAKE_INVOICES
 
     with create_session_maker(connection_string)() as session:
         for name, address in fake_customers:
@@ -56,8 +59,9 @@ def init_fake_data(connection_string: str):
         for ean13, name, _ in fake_products:
             session.execute(insert(Item).values(code=ean13, description=name))
 
-        for fake_customers, invoice_detail in fake_invoices:
-            name, _ = fake_customers
+        for fake_invoice in fake_invoices:
+            fake_customer, invoice_detail = fake_invoice
+            name, _ = fake_customer
             customer = session.execute(
                 select(Customer.id).where(Customer.name == name)
             ).one_or_none()
