@@ -1,4 +1,4 @@
-# SQLALCHEMY - CHEAT SHEET
+# SQLALCHEMY 2
 
 <!-- markdownlint-disable MD033 -->
 <style>
@@ -33,6 +33,8 @@ div {
 </style>
 
 ## Introduzione
+
+Riassunto condensato di SQLAlchemy "per chi va di fretta e ha bisogno di sapere come si fanno le cose."
 
 SQLAlchemy è un framework che fornisce:
 
@@ -95,80 +97,6 @@ Fornisce le funzionalità ORM
     </div>
 </div>
 
-## Percorso consigliato da SQLAlchemy
-
-Leggendo la documentazione si evince che SQLAlchemy permette ed ha permesso nel tempo una molteplicità di modalità operative; Con la versione 2.0 tuttavia emerge che la via consigliata di lavorare è un mix di feature core ed ORM.
-
-In particolare:
-
-- Per l'accesso alle operazioni di database viene consogliato di utilizzare sempre la Session (ORM)
-
-- Per la definizione delle tabelle viene consigliata la sintassi ORM in quanto più completa di funzionalità
-
-- Per l'esecuzione delle operazioni sul DB sono disponibili entrambe le strade; tuttavia se non ci sono particolari necessità di utilkizzare le finzionalità ORM viene suggerito di eseguire glli statement in modalità e stile core.
-
-## Creazione della connessione e sessione
-
-Per creare una connessione o una sessione si segue grossomodo lo schema logico spiegato sopra.
-
-I passaggi logici risultano quindi essere:
-
-### 1. Creazione di un oggetto Engine
-
-```python
-
-from sqlalchemy import create_engine
-from sqlalchemy.engine.base import Engine
-from sqlalchemy.orm.session import sessionmaker
-
-
-database:str = "mysql+pymysql://root:password@localhost:3306/sandbox?charset=utf8mb4" 
-engine = create_engine(database)
- 
-
-```
-
-### 2/a. Creazione di un oggetto Connection
-
-Per completezza si mostra l'istanziazione di un a Connection anche se la raccomandazione di SQLAlchemy è quella di utilizzare un oggetto di tipo Session anche se i utilizzano le soloe funzionalità ORM
-
-```python
-
-with engine.connect() as connection:
-    ...
-
-
-```
-
-### 2/b. Creazione di un oggetto Session
-
-```python
-
-from sqlalchemy.orm import Session
-from sqlalchemy.orm.session import sessionmaker
-
-# Creare un session_maker
-# https://medium.com/@keyyleiva/easy-database-handling-with-sqlalchemys-sessionmaker-659f718a86d5#:~:text=The%20SessionMaker%20is%20a%20tool,changes%2C%20and%20executing%20database%20queries.
-
-Session = sessionmaker(bind=create_db_engine(database=database))
-
-# Creare un oggetto session
-
-session = Session()
-
-```
-
-### 3. Utilizzo dell'oggetto connection o session
-
-Il modo suggerito è quello di usare la session come context manager
-
-```python
-
-with Session() as session:
-    ...
-
-```
-
 ## Definizione tabelle
 
 Alla base delle funzionalità di SQLAlchemy ci sono i concetti di tabella e colonna, utilizzati sia dalla parte Core che dalla parte ORM.
@@ -185,8 +113,6 @@ metadata = MetaData()
 ```
 
 ### Definizione delle tabelle in stile Core
-
-Viene illustrato per completezza un esempio di creazione tabelle in stile Core, anche se è consigliato comunque di utilizzare l'ORM
 
 <https://docs.sqlalchemy.org/en/20/tutorial/metadata.html#setting-up-metadata-with-table-objects>
 
