@@ -28,7 +28,7 @@ class Customer(BaseModel):
 class Item(BaseModel):
     __tablename__ = "item"
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
-    code: Mapped[str] = mapped_column(String(30), index=True)
+    code: Mapped[str] = mapped_column(String(30), index=True, unique=True)
     description: Mapped[str] = mapped_column(String(50), nullable=False)
     price_list: Mapped[PriceList] = relationship(back_populates="item")
 
