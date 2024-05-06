@@ -105,7 +105,7 @@ In particolare:
 
 - Per la definizione delle tabelle viene consigliata la sintassi ORM in quanto più completa di funzionalità
 
-- Per l'esecuzione delle operazioni sul DB sono disponibili entrambe le strade; tuttavia se non ci sono particolari necessità di utilkizzare le finzionalità ORM viene suggerito di eseguire glli statement in modalità e stile core.
+- Per l'esecuzione delle operazioni sul DB sono disponibili entrambe le strade; tuttavia se non ci sono particolari necessità di utilizzare le finzionalità ORM viene suggerito di eseguire glli statement in modalità e stile core.
 
 ## Creazione della connessione e sessione
 
