@@ -39,11 +39,35 @@ SQLAlchemy è un framework che fornisce:
 - Astrazione per l'interazione col DB ("core")
 - Funzionalità ("ORM")
 
+## FARE Tutti gli esempi 1.4
+
+
+
+## AGGIUNGERE
+* install Librerie specifiche DB
+* alias
+* label
+* order_by
+* limit + offset
+* join 
+* group by
+* distinct
+
+già fatte 
+* exists
+* join
+
+
+
+
 ## Installazione
 
 ```shell
 pip install sqlalchemy
 ```
+
+## AGGIUNGERE installazione del client del DB
+
 
 Nella semplicità del comando di installazione è "naascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
 
@@ -96,7 +120,7 @@ Fornisce le funzionalità ORM
 </div>
 
 ## Percorso consigliato da SQLAlchemy
-
+--> SPOSTARE IN FONDO
 Leggendo la documentazione si evince che SQLAlchemy permette ed ha permesso nel tempo una molteplicità di modalità operative; Con la versione 2.0 tuttavia emerge che la via consigliata di lavorare è un mix di feature core ed ORM.
 
 In particolare:
