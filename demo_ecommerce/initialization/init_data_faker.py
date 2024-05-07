@@ -7,7 +7,11 @@ from faker import Faker
 import faker_commerce
 
 from demo_ecommerce.connection.connection import create_session_maker
-from demo_ecommerce.models.fake_data import FAKE_CUSTOMERS, FAKE_INVOICES, FAKE_PRODUCTS
+from demo_ecommerce.initialization.fake_data import (
+    FAKE_CUSTOMERS,
+    FAKE_INVOICES,
+    FAKE_PRODUCTS,
+)
 from demo_ecommerce.models.models import (
     Customer,
     Invoice,
