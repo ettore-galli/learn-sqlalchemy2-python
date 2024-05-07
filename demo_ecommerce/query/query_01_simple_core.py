@@ -9,6 +9,11 @@ def query_data(connection_string: str):
     with create_session_maker(connection_string)() as session:
 
         # Elenco clienti
+
+        # SELECT customer.id, customer.name, customer.address
+        # FROM customer
+        # WHERE customer.name LIKE '%%oni%%'
+
         query = select(Customer).where(Customer.name.like("%oni%"))
 
         print(render_query(session, query))
