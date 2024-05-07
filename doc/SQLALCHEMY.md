@@ -18,6 +18,7 @@ pre {
     color: #000000;
 }
 code {
+    background-color: #ffffff;
     color: #000000;
 }
 h1 {
@@ -192,6 +193,8 @@ with engine.connect() as connection:
 
 ### 2/b. Creazione di un oggetto Session
 
+Demo: `demo_ecommerce/connection/connection.py`
+
 ```python
 
 from sqlalchemy.orm import Session
@@ -327,6 +330,8 @@ item = Table(
 
 ### Definizione delle tabelle in stile ORM
 
+Demo: `demo_ecommerce/models/models.py`
+
 <https://docs.sqlalchemy.org/en/20/tutorial/metadata.html#using-orm-declarative-forms-to-define-table-metadata>
 
 Le definizioni in stile ORM sono quelle raccomandate perché
@@ -450,7 +455,7 @@ Differenza tra core ed ORM nel risultato:
 
 > When executing a statement like the above using the ORM Session.execute() method, there is an important difference when we select from a full entity such as User, as opposed to user_table, which is that the entity itself is returned as a single element within each row.
 
-#### Select Core Style
+#### Select base Core Style
 
 ```python
 from sqlalchemy import select
@@ -461,7 +466,7 @@ result = session.execute(query).all()
 # result_orm == [(Item,)]
 ```
 
-#### Select ORM Style
+#### Select base ORM Style
 
 ```python
 result = session.query(Item).filter(Item.code == "L002").all()
