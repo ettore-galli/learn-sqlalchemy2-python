@@ -2,24 +2,6 @@
 
 <!-- markdownlint-disable MD033 -->
 <style>
-body{
-    background-color: #ffffff;
-    color: #101010;
-}
-blockquote  {
-    background-color: #ffffff;
-    color: #000000;
-}
-pre code {
-    color: #000000;
-}
-pre {
-    background-color: #ffffff;
-    color: #000000;
-}
-code {
-    color: #000000;
-}
 h1 {
     font-size: 30px;
 }
@@ -46,9 +28,7 @@ div {
     margin: 5%;
 }
 
-.hljs-title.class_ {
-    color: #303030;
-}
+
 
 </style>
 
@@ -59,10 +39,11 @@ SQLAlchemy è un framework che fornisce:
 - Astrazione per l'interazione col DB ("core")
 - Funzionalità ("ORM")
 
+## FARE Tutti gli esempi 1.4
+
 ## AGGIUNGERE
 
-- install Librerie specifiche DB
-
+* install Librerie specifiche DB
 - alias
 - label
 - order_by
@@ -72,30 +53,18 @@ SQLAlchemy è un framework che fornisce:
 - distinct
 
 già fatte
-
 - exists
 - join
 
 ## Installazione
 
-Installazione di
-SQLAlchemy
-
 ```shell
 pip install sqlalchemy
 ```
 
-Installazione dei driver del DB
+## AGGIUNGERE installazione del client del DB
 
-```shell
-# MySQL
-pip install pymysql
-
-# Oracle
-pip install cx-oracle
-```
-
-Nella semplicità del comando di installazione è "nascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
+Nella semplicità del comando di installazione è "naascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
 
 ## Riferimenti
 
@@ -147,6 +116,7 @@ Fornisce le funzionalità ORM
 
 ## Percorso consigliato da SQLAlchemy
 
+--> SPOSTARE IN FONDO
 Leggendo la documentazione si evince che SQLAlchemy permette ed ha permesso nel tempo una molteplicità di modalità operative; Con la versione 2.0 tuttavia emerge che la via consigliata di lavorare è un mix di feature core ed ORM.
 
 In particolare:
@@ -180,7 +150,7 @@ engine = create_engine(database)
 
 ### 2/a. Creazione di un oggetto Connection
 
-Per completezza si mostra l'istanziazione di un a Connection anche se la raccomandazione di SQLAlchemy è quella di utilizzare un oggetto di tipo Session anche se i utilizzano le sole funzionalità ORM
+Per completezza si mostra l'istanziazione di un a Connection anche se la raccomandazione di SQLAlchemy è quella di utilizzare un oggetto di tipo Session anche se i utilizzano le soloe funzionalità ORM
 
 ```python
 
@@ -227,16 +197,12 @@ Alla base delle funzionalità di SQLAlchemy ci sono i concetti di tabella e colo
 
 E' la collezione di oggetti che rappresentano il database (tabelle, colonne...)
 
-E' un concetto condiviso tra la parte core ed ORM
-
 ```python
 from sqlalchemy import MetaData
 
 metadata = MetaData()
 
 ```
-
-Come per quasi tutti gli aspetti di SQLAlchemy, le tabelle possono essere definite con due "stili": core ed ORM
 
 ### Definizione delle tabelle in stile Core
 
