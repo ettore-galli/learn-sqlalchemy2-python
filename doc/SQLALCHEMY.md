@@ -517,6 +517,17 @@ session.delete(p1)
 
 ### Select avanzate (ricette) Core style
 
+#### [00] Query di base, label, alias
+
+`demo_ecommerce/query/query_00_base_alias_core.py`
+`demo_ecommerce/query/query_00_base_alias_orm.py`
+
+```python
+detail = aliased(InvoiceDetail)
+
+detail.item_code.label("articolo")
+```
+
 #### Join
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>

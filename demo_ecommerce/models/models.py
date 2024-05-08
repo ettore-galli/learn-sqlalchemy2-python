@@ -31,6 +31,7 @@ class Item(BaseModel):
     code: Mapped[str] = mapped_column(String(30), index=True, unique=True)
     description: Mapped[str] = mapped_column(String(50), nullable=False)
     price_list: Mapped[PriceList] = relationship(back_populates="item")
+    invoice_details: Mapped[List[InvoiceDetail]] = relationship(back_populates="item")
 
 
 class PriceList(BaseModel):
@@ -53,6 +54,6 @@ class InvoiceDetail(BaseModel):
     id: Mapped[int] = mapped_column(Integer, primary_key=True)
     invoice_id: Mapped[int] = mapped_column(ForeignKey(Invoice.id))
     item_code: Mapped[int] = mapped_column(ForeignKey(Item.code))
-    item: Mapped[Item] = relationship()
+    item: Mapped[Item] = relationship(back_populates="invoice_details")
     quantity: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
     unit_price: Mapped[Decimal] = mapped_column(Numeric(30, 9), nullable=False)
