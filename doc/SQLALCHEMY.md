@@ -77,6 +77,8 @@ già fatte
 - exists
 - join
 
+<div style="page-break-before: always;" />
+
 ## Installazione
 
 Installazione di
@@ -98,6 +100,8 @@ pip install cx-oracle
 
 Nella semplicità del comando di installazione è "nascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
 
+<div style="page-break-before: always;" />
+
 ## Riferimenti
 
 SQLAlchemy 2 ha - finalmente - un tutorial.
@@ -107,6 +111,8 @@ Home page del tutorial
 
 Differenza tra Connection e Session
 <https://stackoverflow.com/questions/34322471/sqlalchemy-engine-connection-and-session-difference>
+
+<div style="page-break-before: always;" />
 
 ## Modi di funzionamento: Core e ORM
 
@@ -129,6 +135,8 @@ Dal tutorial:
     <h4>Core</h4>
     </div>
 </div>
+
+<div style="page-break-before: always;" />
 
 ## _Engine_, _Connection_ e _Session_
 
@@ -157,6 +165,8 @@ In particolare:
 - Per la definizione delle tabelle viene consigliata la sintassi ORM in quanto più completa di funzionalità
 
 - Per l'esecuzione delle operazioni sul DB sono disponibili entrambe le strade; tuttavia se non ci sono particolari necessità di utilizzare le finzionalità ORM viene suggerito di eseguire glli statement in modalità e stile core.
+
+<div style="page-break-before: always;" />
 
 ## Creazione della connessione e sessione
 
@@ -222,6 +232,8 @@ with Session() as session:
 
 ```
 
+<div style="page-break-before: always;" />
+
 ## Definizione tabelle
 
 Alla base delle funzionalità di SQLAlchemy ci sono i concetti di tabella e colonna, utilizzati sia dalla parte Core che dalla parte ORM.
@@ -267,6 +279,8 @@ customer = Table(
 )
 
 ```
+
+<div style="page-break-before: always;" />
 
 ### Vincoli e relazioni stile Core
 
@@ -328,6 +342,8 @@ item = Table(
 
 ```
 
+<div style="page-break-before: always;" />
+
 ### Definizione delle tabelle in stile ORM
 
 Demo: `demo_ecommerce/models/models.py`
@@ -371,6 +387,8 @@ class Customer(BaseModel):
 
 ```
 
+<div style="page-break-before: always;" />
+
 ### vincoli e relazioni in stile ORM
 
 <https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html>
@@ -394,6 +412,8 @@ class Invoice(BaseModel):
     customer: Mapped[Customer] = relationship(back_populates="invoices")
 
 ```
+
+<div style="page-break-before: always;" />
 
 ## Costruzione ed esecuzione statement SQL
 
@@ -428,6 +448,8 @@ with create_session_maker(connection_string)() as session:
 
 ```
 
+<div style="page-break-before: always;" />
+
 ### Insert
 
 #### Insert Core Style
@@ -446,6 +468,8 @@ session.add(record)
 session.commit()
 
 ```
+
+<div style="page-break-before: always;" />
 
 ### Select (base)
 
@@ -474,6 +498,8 @@ result = session.query(Item).filter(Item.code == "L002").all()
 # result == [Item]
 ```
 
+<div style="page-break-before: always;" />
+
 ### Update
 
 #### Update Core Style
@@ -493,6 +519,8 @@ l2 = session.query(Item).where(Item.code=="L002").one_or_none()
 l2.description = "Lampadina standard"
 
 ```
+
+<div style="page-break-before: always;" />
 
 ### Delete
 
@@ -515,18 +543,48 @@ session.delete(p1)
 
 ```
 
+<div style="page-break-before: always;" />
+
 ### Select avanzate (ricette) Core style
 
-#### [00] Query di base, label, alias
+Di seguito una serie di esempi pratici di costruzioni di query che implementano varie tipologie di istruzioni SQL
+
+<div style="page-break-before: always;" />
+
+#### [00] [01] Query di base, label, alias
 
 `demo_ecommerce/query/query_00_base_alias_core.py`
 `demo_ecommerce/query/query_00_base_alias_orm.py`
+
+`demo_ecommerce/query/query_01_simple_core.py`
+`demo_ecommerce/query/query_01_simple_orm.py`
+
+Label e alias:
 
 ```python
 detail = aliased(InvoiceDetail)
 
 detail.item_code.label("articolo")
 ```
+
+<div style="page-break-before: always;" />
+
+#### [02] Group by
+
+`demo_ecommerce/query/query_02_group_core.py`
+`demo_ecommerce/query/query_02_group_orm.py`
+
+- Campo di raggruppamento
+- Funzioni di aggregazione
+- Statement di raggruppamento
+
+```python
+    query = select(
+        InvoiceDetail.item_code, func.count(InvoiceDetail.id).label("occurrences")
+    ).group_by(InvoiceDetail.item_code)
+```
+
+<div style="page-break-before: always;" />
 
 #### Join
 
@@ -547,6 +605,8 @@ query = select(Customer, Invoice).join(
 result = session.execute(query).all()
 
 ```
+
+<div style="page-break-before: always;" />
 
 #### Exists
 
