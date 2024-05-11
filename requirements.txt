@@ -3,7 +3,7 @@ sqlalchemy
 faker
 faker-commerce
 
-# cryptography
+cryptography
 pymysql
 
 # test

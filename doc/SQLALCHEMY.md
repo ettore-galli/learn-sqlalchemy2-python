@@ -586,6 +586,22 @@ detail.item_code.label("articolo")
 
 <div style="page-break-before: always;" />
 
+#### [03] Limit e Offset
+
+`demo_ecommerce/query/query_03_limit_offset.py`
+
+Limit e offset sono utili per la paginazione
+
+```python
+    query = (
+        select(Customer, Customer.id.label("duplicated_id"))
+        .offset(5)
+        .limit(3)
+    )
+```
+
+<div style="page-break-before: always;" />
+
 #### Join
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>

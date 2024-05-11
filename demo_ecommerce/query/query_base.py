@@ -1,3 +1,8 @@
+from typing import Dict
+
+from sqlalchemy import inspect
+
+
 def render_query(session, query):
     separator = "-" * 80
     rendered = str(
@@ -8,3 +13,8 @@ def render_query(session, query):
         )
     )
     return f"{separator}" "\n" f"{rendered}" "\n" f"{separator}"
+
+
+def result_as_dict(record) -> Dict:
+    fields = [column.name for column in inspect(record).mapper.columns]
+    return {field: getattr(record, field, None) for field in fields}
