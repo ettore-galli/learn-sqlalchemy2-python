@@ -602,6 +602,18 @@ Limit e offset sono utili per la paginazione
 
 <div style="page-break-before: always;" />
 
+#### [04] Estrazione risultato
+
+`demo_ecommerce/query/query_04_result_as_dict.py`
+
+Limit e offset sono utili per la paginazione
+
+```python
+ 
+```
+
+<div style="page-break-before: always;" />
+
 #### Join
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
