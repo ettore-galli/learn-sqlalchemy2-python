@@ -609,12 +609,29 @@ Limit e offset sono utili per la paginazione
 Limit e offset sono utili per la paginazione
 
 ```python
- 
+def result_as_dict(record: Union[Row, DeclarativeBase]) -> Dict:
+    if isinstance(record, DeclarativeBase):
+        return model_as_dict(record=record)
+
+    fields = record._mapping.keys()  # pylint: disable=protected-access
+
+    elements = [
+        (
+            model_as_dict(getattr(record, field, None))  # type: ignore[arg-type]
+            if isinstance(getattr(record, field, None), DeclarativeBase)
+            else {field: getattr(record, field, None)}
+        )
+        for field in fields
+    ]
+    return reduce(lambda acc, cur: {**acc, **cur}, elements, {})
 ```
 
 <div style="page-break-before: always;" />
 
-#### Join
+#### [05] Join
+
+`demo_ecommerce/query/query_05_join_core.py`
+`demo_ecommerce/query/query_05_join_orm.py`
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
 
@@ -636,27 +653,14 @@ result = session.execute(query).all()
 
 <div style="page-break-before: always;" />
 
-#### Exists
+#### [06] Exists
+
+`demo_ecommerce/query/query_06_exists_core.py`
 
 <https://docs.sqlalchemy.org/en/20/tutorial/data_select.html#explicit-from-clauses-and-joins>
 
 ```python
 
-
-# Versione 1
-"""
-SELECT customer.id, customer.name, customer.address 
-FROM customer 
-WHERE EXISTS (SELECT * 
-FROM invoice 
-WHERE customer.id = invoice.customer_id)
-"""
-
-query_exists = select(Customer).where(
-    exists().where(Customer.id == Invoice.customer_id)
-)
-
-# Versione 2
 
 """
 SELECT customer.id, customer.name, customer.address 
