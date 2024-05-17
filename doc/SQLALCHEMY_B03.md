@@ -62,6 +62,7 @@ SQLAlchemy è un framework che fornisce:
 
 ## AGGIUNGERE
 
+- install Librerie specifiche DB
 
 - alias
 - label
