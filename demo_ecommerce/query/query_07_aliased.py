@@ -16,9 +16,7 @@ def query_data(connection_string: str):
             func.sum(Invoice.id).label("id"),
             func.sum(Invoice.customer_id).label("customer_id"),
         ).subquery()
-        totali_fatture = aliased(
-            Invoice, alias=totali, name="TOTALI", adapt_on_names=True
-        )
+        totali_fatture = aliased(totali, name="TOTALI")
 
         # pylint: disable=not-callable
         query = select(fatture).limit(3).union_all(select(totali_fatture))

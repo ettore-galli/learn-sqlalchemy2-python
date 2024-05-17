@@ -60,22 +60,6 @@ SQLAlchemy è un framework che fornisce:
 - Astrazione per l'interazione col DB ("core")
 - Funzionalità ("ORM")
 
-## AGGIUNGERE
-
-
-- alias
-- label
-- order_by
-- limit + offset
-- join
-- group by
-- distinct
-
-già fatte
-
-- exists
-- join
-
 <div style="page-break-before: always;" />
 
 ## Installazione
@@ -676,4 +660,33 @@ subq_exists = (
 query_exists_2 = select(Customer).where(subq_exists)
  
 
+```
+
+#### [07] Aliased
+
+`demo_ecommerce/query/query_07_aliased.py`
+
+<https://docs.sqlalchemy.org/en/14/orm/query.html#sqlalchemy.orm.aliased>
+
+```python
+
+
+"""
+(SELECT `FATTURE`.id, `FATTURE`.customer_id 
+FROM invoice AS `FATTURE` 
+ LIMIT 3) UNION ALL SELECT `TOTALI`.id, `TOTALI`.customer_id 
+FROM (SELECT sum(invoice.id) AS id, sum(invoice.customer_id) AS customer_id 
+FROM invoice) AS `TOTALI`
+"""
+
+fatture = aliased(Invoice, name="FATTURE")
+
+totali = select(
+    func.sum(Invoice.id).label("id"),
+    func.sum(Invoice.customer_id).label("customer_id"),
+).subquery()
+totali_fatture = aliased(totali, name="TOTALI")
+
+query = select(fatture).limit(3).union_all(select(totali_fatture))
+ 
 ```
