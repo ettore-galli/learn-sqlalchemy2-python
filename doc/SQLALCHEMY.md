@@ -168,9 +168,6 @@ I passaggi logici risultano quindi essere:
 ```python
 
 from sqlalchemy import create_engine
-from sqlalchemy.engine.base import Engine
-from sqlalchemy.orm.session import sessionmaker
-
 
 database:str = "mysql+pymysql://root:password@localhost:3306/sandbox?charset=utf8mb4" 
 engine = create_engine(database)
@@ -210,7 +207,7 @@ from sqlalchemy.orm.session import sessionmaker
 # Creare un session_maker
 # https://medium.com/@keyyleiva/easy-database-handling-with-sqlalchemys-sessionmaker-659f718a86d5#:~:text=The%20SessionMaker%20is%20a%20tool,changes%2C%20and%20executing%20database%20queries.
 
-Session = sessionmaker(bind=create_db_engine(database=database))
+Session = sessionmaker(bind=engine)
 
 # Creare un oggetto session
 
@@ -460,17 +457,25 @@ SQLAlchemy’s Session implements the unit of work pattern, where objects that a
 
 #### Insert Core Style
 
+```sql
+INSERT INTO customer (name, address) VALUES ('Ettore', 'Via dei Tigli')
+```
+
 ```python
 from sqlalchemy import insert
 session.execute(insert(Customer).values(name="Ettore", address="Via dei Tigli"))
 
+session.commit()
 ```
 
 #### Insert ORM Style
 
+`dml_01_insert_core.py`
+
 ```python
 record = Customer(name="Ettore", address="Via dei Tigli")
 session.add(record)
+
 session.commit()
 
 ```
@@ -508,7 +513,13 @@ result = session.query(Item).filter(Item.code == "L002").all()
 
 ### Update
 
+`dml_02_update_core.py`
+
 #### Update Core Style
+
+```sql
+UPDATE customer SET address='Via dei Tigli, 2/D' WHERE customer.id = 1
+```
 
 ```python
 from sqlalchemy import update
@@ -529,6 +540,8 @@ l2.description = "Lampadina standard"
 <div style="page-break-before: always;" />
 
 ### Delete
+
+`dml_03_delete_core.py`
 
 #### Delete Core Style
 
