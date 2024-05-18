@@ -57,7 +57,7 @@ div {
 
 SQLAlchemy è un framework che fornisce:
 
-- Astrazione per l'interazione col DB ("core")
+- Astrazione per l'interazione col DB e la creazione di statement SQL ("core")
 - Funzionalità ("ORM")
 
 <div style="page-break-before: always;" />
@@ -85,15 +85,12 @@ Nella semplicità del comando di installazione è "nascosta" la natura da un lat
 
 <div style="page-break-before: always;" />
 
-## Riferimenti
+## Tutorial
 
 SQLAlchemy 2 ha - finalmente - un tutorial.
 
 Home page del tutorial
 <https://docs.sqlalchemy.org/en/20/tutorial/index.html>
-
-Differenza tra Connection e Session
-<https://stackoverflow.com/questions/34322471/sqlalchemy-engine-connection-and-session-difference>
 
 <div style="page-break-before: always;" />
 
@@ -114,7 +111,7 @@ Dal tutorial:
 <!-- markdownlint-disable MD033 -->
 <div class="box" style="width: 100%">
 <h4>ORM</h4>
-    <div class="box" style="width: 75%">
+    <div class="box" style="width: 75%; border: dashed;">
     <h4>Core</h4>
     </div>
 </div>
@@ -122,6 +119,12 @@ Dal tutorial:
 <div style="page-break-before: always;" />
 
 ## _Engine_, _Connection_ e _Session_
+
+Alla base della connettività con il database ci sono tre oggetti fondamentali:
+
+- Engine: Fornisce la base per la connessione al db
+- Connection: Fornisce l'interfaccia per l'esecuzione transazionale dei comandi
+- Session: Fornisce le funzionalità ORM (ed esegue gli statement SQL via Connection)
 
 <!-- markdownlint-disable MD033 -->
 <div class="box" style="width: 100%;">
@@ -136,6 +139,9 @@ Fornisce le funzionalità ORM
         </div>
     </div>
 </div>
+
+Differenza tra Connection e Session
+<https://stackoverflow.com/questions/34322471/sqlalchemy-engine-connection-and-session-difference>
 
 ## Percorso consigliato da SQLAlchemy
 
@@ -186,6 +192,14 @@ with engine.connect() as connection:
 
 ### 2/b. Creazione di un oggetto Session
 
+L'utilizzo dell'oggetto Session è la via raccomandata anche nel caso in cui si vogliano scrivere gli statement in modalità "core"
+
+Gli step logici sono:
+
+1. Stringa di connessione -> Engine
+2. Session maker
+3. Uso della scoped_session (context manager)
+
 Demo: `demo_ecommerce/connection/connection.py`
 
 ```python
@@ -204,7 +218,7 @@ session = Session()
 
 ```
 
-### 3. Utilizzo dell'oggetto connection o session
+### 3. Utilizzo dell'oggetto connection o session come context manager
 
 Il modo suggerito è quello di usare la session come context manager
 
@@ -398,6 +412,38 @@ class Invoice(BaseModel):
 
 <div style="page-break-before: always;" />
 
+## Ambiente sandbox
+
+`demo_ecommerce/database/start-db.sh`
+
+```shell
+# Once:
+#     docker pull mysql
+#
+# Enter 
+#     mysql sandbox --password=password
+#     mysql sandbox --user utente --password=password
+
+
+docker run \
+    --name mysql-sandbox \
+    -e MYSQL_ROOT_PASSWORD=password \
+    -e MYSQL_DATABASE=sandbox \
+    -v ./init.d:/docker-entrypoint-initdb.d \
+    -p 3306:3306 \
+    -it -d mysql:latest 
+```
+
+```sql
+CREATE USER 'utente' identified by 'password';
+
+GRANT ALL PRIVILEGES ON *.* TO 'utente';
+
+FLUSH PRIVILEGES;
+```
+
+<div style="page-break-before: always;" />
+
 ## Costruzione ed esecuzione statement SQL
 
 Spiegazione del pattern "unit of work"
@@ -407,29 +453,6 @@ Spiegazione del pattern "unit of work"
 > Unit of work:
 A software architecture where a persistence system such as an object relational mapper maintains a list of changes made to a series of objects, and periodically flushes all those pending changes out to the database.
 SQLAlchemy’s Session implements the unit of work pattern, where objects that are added to the Session using methods like Session.add() will then participate in unit-of-work style persistence.
-
-### Creazione della sessione
-
-L'utilizzo dell'oggetto Session è la via raccomandata ancjhe nel caso in cui si vogliano scrivere gli statement in modalità "core"
-
-Gli step logici sono:
-
-1. Stringa di connessione -> Engine
-2. Session maker
-3. scoped_session (context manager)
-
-```python
-
-database: str = "mysql+pymysql://root:password@localhost:3306/sandbox?charset=utf8mb4"
-
-# 1.
-engine = create_engine(database)
-
-#    2.                                     3.
-with create_session_maker(connection_string)() as session:
-    session.execute(...)
-
-```
 
 <div style="page-break-before: always;" />
 
