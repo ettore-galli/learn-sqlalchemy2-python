@@ -1,4 +1,4 @@
-CREATE USER 'utente' identified by 'password';
+CREATE USER 'utente'@'%' identified by 'password';
 
 GRANT ALL PRIVILEGES ON *.* TO 'utente';
 

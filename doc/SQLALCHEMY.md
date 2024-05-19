@@ -85,12 +85,31 @@ Nella semplicità del comando di installazione è "nascosta" la natura da un lat
 
 <div style="page-break-before: always;" />
 
-## Tutorial
+## Tutorial e documentazione
 
 SQLAlchemy 2 ha - finalmente - un tutorial.
 
 Home page del tutorial
 <https://docs.sqlalchemy.org/en/20/tutorial/index.html>
+
+Altre pagine di interesse:
+
+Engine e connessioni
+<https://docs.sqlalchemy.org/en/20/core/connections.html#result-set-api>
+
+Pattern di relazioni
+<https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html>
+
+Introduzione a SQLAlchemy Core
+<https://docs.sqlalchemy.org/en/20/core/>
+
+<div style="page-break-before: always;" />
+
+## Approccio "code first" vs "data first"
+
+Senza voler nulla togliere a nessuno dei due approcci, qui viene presentato un approccio di tipo "data first" perchè nell'esperienza di chi scrive è la situazione più comune nella quale ci si viene a trovare nella realtà lavorativa di tutti i giorni'
+
+L'approccio data first durerebbe fino alla prima release...
 
 <div style="page-break-before: always;" />
 
@@ -338,6 +357,16 @@ item = Table(
 
 <div style="page-break-before: always;" />
 
+### Creazione delle tabelle in modalità core
+
+```python
+engine = create_engine(database)
+
+db_metadata.create_all()
+```
+
+<div style="page-break-before: always;" />
+
 ### Definizione delle tabelle in stile ORM
 
 Demo: `demo_ecommerce/models/models.py`
@@ -383,7 +412,7 @@ class Customer(BaseModel):
 
 <div style="page-break-before: always;" />
 
-### vincoli e relazioni in stile ORM
+### Vincoli e relazioni in stile ORM
 
 <https://docs.sqlalchemy.org/en/20/orm/basic_relationships.html>
 
@@ -405,6 +434,16 @@ class Invoice(BaseModel):
     customer_id: Mapped[int] = mapped_column(ForeignKey(Customer.id))
     customer: Mapped[Customer] = relationship(back_populates="invoices")
 
+```
+
+<div style="page-break-before: always;" />
+
+### Creazione delle tabelle in modalità orm
+
+```python
+engine = create_engine(database)
+
+BaseModel.metadata.create_all(engine)
 ```
 
 <div style="page-break-before: always;" />
