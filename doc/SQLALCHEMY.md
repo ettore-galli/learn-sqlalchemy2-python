@@ -220,6 +220,8 @@ with engine.connect() as connection:
 
 ```
 
+<div style="page-break-before: always;" />
+
 ### 2/b. Creazione di un oggetto Session
 
 L'utilizzo dell'oggetto Session è la via raccomandata anche nel caso in cui si vogliano scrivere gli statement in modalità "core"
@@ -349,6 +351,8 @@ CheckConstraint(
 )
 
 ```
+
+<div style="page-break-before: always;" />
 
 Chiave primaria
 
@@ -750,6 +754,8 @@ query_exists_2 = select(Customer).where(subq_exists)
  
 
 ```
+
+<div style="page-break-before: always;" />
 
 #### [07] Aliased
 
