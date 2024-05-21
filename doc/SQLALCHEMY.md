@@ -53,12 +53,23 @@ div {
 
 </style>
 
-## Introduzione
+## Introduzione e agenda
+
+### Che cos'è SQLAlchemy
 
 SQLAlchemy è un framework che fornisce:
 
 - Astrazione per l'interazione col DB e la creazione di statement SQL ("core")
 - Funzionalità ("ORM")
+
+### Agenda
+
+- Introduzione, installazione
+- Architettura: core/ORM
+- Engine, Session, Connection
+- Definizione dei modelli
+- Operazioni CRUD di base
+- Esempi di vari tipi di select
 
 <div style="page-break-before: always;" />
 
@@ -71,6 +82,8 @@ SQLAlchemy
 pip install sqlalchemy
 ```
 
+Nella semplicità del comando di installazione è "nascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
+
 Installazione dei driver del DB
 
 ```shell
@@ -79,9 +92,10 @@ pip install pymysql
 
 # Oracle
 pip install cx-oracle
-```
 
-Nella semplicità del comando di installazione è "nascosta" la natura da un lato doppia (core/orm) dall'altra parte inscindibile che suggerirà alcune strategie d'uso.
+# Postgres
+pip install psycopg2
+```
 
 <div style="page-break-before: always;" />
 
