@@ -615,7 +615,7 @@ session.delete(p1)
 
 <div style="page-break-before: always;" />
 
-### Select _"avanzate"_ (ricette) Core style
+### Select _"avanzate"_ (ricette)
 
 Di seguito una serie di esempi pratici di costruzioni di query che implementano varie tipologie di istruzioni SQL
 
