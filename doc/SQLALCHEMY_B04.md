@@ -500,7 +500,13 @@ FLUSH PRIVILEGES;
 
 ## Costruzione ed esecuzione statement SQL
 
-Esempi pratici di esecuzione statement SQL di manipolazione dati e query
+Spiegazione del pattern "unit of work"
+
+<https://docs.sqlalchemy.org/en/20/tutorial/orm_data_manipulation.html#data-manipulation-with-the-orm>
+
+> Unit of work:
+A software architecture where a persistence system such as an object relational mapper maintains a list of changes made to a series of objects, and periodically flushes all those pending changes out to the database.
+SQLAlchemy’s Session implements the unit of work pattern, where objects that are added to the Session using methods like Session.add() will then participate in unit-of-work style persistence.
 
 <div style="page-break-before: always;" />
 
