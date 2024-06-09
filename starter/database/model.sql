@@ -26,20 +26,23 @@ CREATE TABLE price_list (
 CREATE UNIQUE INDEX idx_price_list_item_code_start_val_date ON price_list (item_code, start_val_date);
 
 CREATE TABLE invoice (
-    id INTEGER NOT NULL,
+    id INTEGER NOT NULL AUTO_INCREMENT,
+    invoice_number INTEGER NOT NULL,
     invoice_date DATETIME NOT NULL,
     customer_id INTEGER NOT NULL,
     PRIMARY KEY (id),
     FOREIGN KEY(customer_id) REFERENCES customer (id)
 );
 
+CREATE UNIQUE INDEX idx_invoice_invoice_number ON invoice (invoice_number);
+
 CREATE TABLE invoice_detail (
     id INTEGER NOT NULL AUTO_INCREMENT,
-    invoice_id INTEGER NOT NULL,
+    invoice_number INTEGER NOT NULL,
     item_code VARCHAR(30) NOT NULL,
     quantity NUMERIC(30, 9) NOT NULL,
     actual_unit_price NUMERIC(30, 9) NOT NULL,
     PRIMARY KEY (id),
-    FOREIGN KEY(invoice_id) REFERENCES invoice (id),
+    FOREIGN KEY(invoice_number) REFERENCES invoice (invoice_number),
     FOREIGN KEY(item_code) REFERENCES item (code)
 )
