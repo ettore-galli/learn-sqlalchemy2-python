@@ -1,3 +1,4 @@
+# pylint: disable=R0801
 from sqlalchemy import insert, delete
 from demo_ecommerce.connection.connection import create_session_maker
 from demo_ecommerce.connection.connection_base import Connections
