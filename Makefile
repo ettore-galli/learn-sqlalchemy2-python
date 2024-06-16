@@ -1,4 +1,4 @@
-PACKAGE=tutorial/ demo/ demo_ecommerce/
+PACKAGE=tutorial/ demo/ demo_ecommerce/ server/
 
 test: 
 	@echo "===== TESTING ${PACKAGE} ====="
