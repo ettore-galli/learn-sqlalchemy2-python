@@ -21,4 +21,4 @@ def query_data(connection_string: str):
 
 
 if __name__ == "__main__":
-    query_data(Connections.MYSQL_LOCAL.value)
+    query_data(Connections.MYSQL_SANDBOX.value)
