@@ -20,3 +20,9 @@ DatabaseDependency = Annotated[scoped_session, Depends(get_db_session)]
 @app.post("/something/")
 def conteggio(db: DatabaseDependency):
     return {"db": get_invoices_count(db=db)}
+
+# Run with:
+# ```shell
+# fastapi dev server/api/api.py
+# ```
+
