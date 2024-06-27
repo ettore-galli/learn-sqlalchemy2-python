@@ -1,2 +1,5 @@
 # server api
 fastapi
+
+# Dev dependencies:
+pytest
