@@ -22,6 +22,11 @@ def conteggio(db: DatabaseDependency):
     return {"db": get_invoices_count(db=db)}
 
 
+@app.get("/cerca/{coso}")
+def conteggio(coso: int):
+    return {"coso": coso, "type": str(type(coso))}
+
+
 # Run with:
 # ```shell
 # fastapi dev server/api/api.py
