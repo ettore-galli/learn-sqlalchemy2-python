@@ -12,6 +12,7 @@ from sqlalchemy import ForeignKey, Integer, Numeric, String
 class BaseModel(DeclarativeBase):
     pass
 
+class Item(BaseModel):
 
 db_orm_metadata = BaseModel.metadata
 
